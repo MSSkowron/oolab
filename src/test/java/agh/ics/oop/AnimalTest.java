@@ -10,11 +10,14 @@ class AnimalTest {
     @Test
     void orientationTest() {
         //given
-        Animal myAnimal_1 = new Animal();
+        IWorldMap map1 = new RectangularMap(4,4);
+        IWorldMap map2 = new RectangularMap(4,4);
+        IWorldMap map3 = new RectangularMap(4,4);
+        Animal myAnimal_1 = new Animal(map1);
         MoveDirection[] a1 = {MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.RIGHT};
-        Animal myAnimal_2 = new Animal();
+        Animal myAnimal_2 = new Animal(map2);
         MoveDirection[] a2 = {MoveDirection.BACKWARD, MoveDirection.BACKWARD, MoveDirection.LEFT};
-        Animal myAnimal_3 = new Animal();
+        Animal myAnimal_3 = new Animal(map3);
         MoveDirection[] a3 = {MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.LEFT};
 
         //when
@@ -38,11 +41,14 @@ class AnimalTest {
     @Test
     void positionTest() {
         //given
-        Animal myAnimal_1 = new Animal();
+        IWorldMap map1 = new RectangularMap(4,4);
+        IWorldMap map2 = new RectangularMap(4,4);
+        IWorldMap map3 = new RectangularMap(4,4);
+        Animal myAnimal_1 = new Animal(map1);
         MoveDirection[] a1 = {MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.RIGHT};
-        Animal myAnimal_2 = new Animal();
+        Animal myAnimal_2 = new Animal(map2);
         MoveDirection[] a2 = {MoveDirection.BACKWARD, MoveDirection.BACKWARD, MoveDirection.LEFT};
-        Animal myAnimal_3 = new Animal();
+        Animal myAnimal_3 = new Animal(map3);
         MoveDirection[] a3 = {MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.LEFT};
 
         //when
@@ -67,11 +73,14 @@ class AnimalTest {
     @Test
     void mapBorderTest() {
         //given
-        Animal myAnimal_1 = new Animal();
+        IWorldMap map1 = new RectangularMap(4,4);
+        IWorldMap map2 = new RectangularMap(4,4);
+        IWorldMap map3 = new RectangularMap(4,4);
+        Animal myAnimal_1 = new Animal(map1);
         MoveDirection[] a1 = {MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD};
-        Animal myAnimal_2 = new Animal();
+        Animal myAnimal_2 = new Animal(map2);
         MoveDirection[] a2 = {MoveDirection.BACKWARD, MoveDirection.BACKWARD, MoveDirection.BACKWARD};
-        Animal myAnimal_3 = new Animal();
+        Animal myAnimal_3 = new Animal(map3);
         MoveDirection[] a3 = {MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD};
 
         //when

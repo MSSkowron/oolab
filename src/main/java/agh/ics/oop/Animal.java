@@ -1,104 +1,75 @@
 package agh.ics.oop;
 
-public class Animal {
-    private MapDirection direction = MapDirection.NORTH;
-    private Vector2d position = new Vector2d(2, 2);
+public class Animal implements IWorldMap{
+    private MapDirection direction;
+    private Vector2d position;
+    private final IWorldMap map;
+    public static final Vector2d STARTING_POINT = new Vector2d(4,4);
+
+    public Animal(IWorldMap map){
+        this.map=map;
+        direction = MapDirection.NORTH;
+        position = STARTING_POINT;
+    }
+    public Animal(IWorldMap map,Vector2d initialPosition){
+        position=initialPosition;
+        direction=MapDirection.NORTH;
+        this.map=map;
+    }
 
     public MapDirection getDirection() {
         return direction;
-    }
-
-    public void setDirection(MapDirection direction) {
-        this.direction = direction;
     }
 
     public Vector2d getPosition() {
         return position;
     }
 
-    public void setPosition(Vector2d position) {
-        this.position = position;
-    }
-
     public String toString() {
-        return "Position: " + position.toString() + " Direction: " + direction.toString();
-    }
-
-    private void turnLeft() {
-        direction = switch (direction) {
-            case NORTH -> MapDirection.WEST;
-            case WEST -> MapDirection.SOUTH;
-            case EAST -> MapDirection.NORTH;
-            case SOUTH -> MapDirection.EAST;
+        return switch (direction){
+            case NORTH -> "N";
+            case SOUTH -> "S";
+            case EAST -> "E";
+            case WEST -> "W";
         };
-
     }
 
-    private void turnRight() {
-        direction = switch (direction) {
-            case NORTH -> MapDirection.EAST;
-            case WEST -> MapDirection.NORTH;
-            case EAST -> MapDirection.SOUTH;
-            case SOUTH -> MapDirection.WEST;
-        };
-
-    }
-
-    private void moveUp() {
-        if (position.y != 4) {
-            position.y += 1;
+    public void move(MoveDirection step) {
+        switch (step) {
+            case LEFT -> direction=direction.previous();
+            case RIGHT -> direction=direction.next();
+            case BACKWARD  -> {
+                if(this.map.canMoveTo(this.position.subtract(this.direction.toUnitVector()))){
+                    this.position = this.position.subtract(this.direction.toUnitVector());
+                }
+            }
+            case FORWARD -> {
+                if(this.map.canMoveTo(this.position.add(this.direction.toUnitVector()))){
+                    this.position=this.position.add(this.direction.toUnitVector());
+                }
+            }
         }
     }
 
-    private void moveDown() {
-        if (position.y != 0) {
-            position.y -= 1;
-        }
-
+    @Override
+    public boolean canMoveTo(Vector2d position) {
+        RectangularMap mainMap = (RectangularMap) this.map;
+        return position.precedes(mainMap.getUpperRightBorder()) && position.follows(mainMap.getLowerLeftBorder());
     }
 
-    private void moveLeft() {
-        if (position.x != 0) {
-            position.x -= 1;
-        }
+    @Override
+    public boolean place(Animal animal) {
+        return false;
     }
 
-    private void moveRight() {
-        if (position.x != 4) {
-            position.x += 1;
-        }
-
+    @Override
+    public boolean isOccupied(Vector2d position) {
+        return false;
     }
 
-    private void moveForward() {
-        switch (direction) {
-            case NORTH -> moveUp();
-            case SOUTH -> moveDown();
-            case WEST -> moveLeft();
-            case EAST -> moveRight();
-        }
+    @Override
+    public Object objectAt(Vector2d position) {
+        return null;
     }
-
-    private void moveBackwards() {
-        switch (direction) {
-            case NORTH -> moveDown();
-            case SOUTH -> moveUp();
-            case WEST -> moveRight();
-            case EAST -> moveLeft();
-        }
-
-    }
-
-    public void move(MoveDirection direction) {
-        switch (direction) {
-            case LEFT -> turnLeft();
-            case RIGHT -> turnRight();
-            case BACKWARD -> moveBackwards();
-            case FORWARD -> moveForward();
-        }
-
-    }
-
-
 }
 
