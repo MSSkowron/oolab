@@ -21,6 +21,7 @@ public class MapVisualiser {
         this.map = map;
     }
 
+
     /**
      * Convert selected region of the map into a string. It is assumed that the
      * indices of the map will have no more than two characters (including the

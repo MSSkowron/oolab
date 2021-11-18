@@ -3,7 +3,7 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RectangularMap implements IWorldMap {
+public class RectangularMap extends AbstractWorldMap implements IWorldMap {
     private final Vector2d upperRightBorder;
     private final Vector2d lowerLeftBorder;
     private final MapVisualiser mapVisualiser = new MapVisualiser(null);
@@ -15,22 +15,18 @@ public class RectangularMap implements IWorldMap {
         lowerLeftBorder = new Vector2d(0,0);
     }
 
-    public Vector2d getLowerLeftBorder() {
+    protected Vector2d getLowerLeftBorder() {
         return lowerLeftBorder;
     }
 
-    public Vector2d getUpperRightBorder() {
+    protected Vector2d getUpperRightBorder() {
         return upperRightBorder;
     }
 
-    public Animal getAnimal(int i) {
+    protected Animal getAnimal(int i) {
         return animals.get(i);
     }
 
-    @Override
-    public String toString() {
-        return mapVisualiser.draw(lowerLeftBorder,upperRightBorder);
-    }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -53,12 +49,7 @@ public class RectangularMap implements IWorldMap {
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for(Animal animal:animals){
-            if(animal.getPosition().equals(position)){
-                return true;
-            }
-        }
-        return false;
+        return objectAt(position) != null;
     }
 
     @Override

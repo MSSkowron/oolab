@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RectangularMapTest {
 
     @Test
-    void place() {
+    void placeTest() {
         //given
         RectangularMap map = new RectangularMap(10,10);
         Animal animal1 = new Animal(null,new Vector2d(1,1));
@@ -34,7 +34,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void isOccupied() {
+    void isOccupiedTest() {
         //given
         RectangularMap map = new RectangularMap(10,10);
         Animal animal1 = new Animal(null,new Vector2d(1,1));
@@ -56,7 +56,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void objectAt() {
+    void objectAtTest() {
         //given
         RectangularMap map = new RectangularMap(10,10);
         Animal animal1 = new Animal(null,new Vector2d(1,1));
@@ -71,8 +71,26 @@ class RectangularMapTest {
         Object res2 = map.objectAt(pos2);
         Object res3 = map.objectAt(pos3);
         //then
-        Assertions.assertEquals(animal1,res1);
-        Assertions.assertEquals(animal2,res2);
+        assertEquals(animal1,res1);
+        assertEquals(animal2,res2);
         assertNull(res3);
+    }
+
+    @Test
+    void canMoveToTest() {
+        //given
+        IWorldMap map = new RectangularMap(10, 10);
+        Animal animal1 = new Animal(map,new Vector2d(2,1));
+        Animal animal2 = new Animal(map,new Vector2d(2,2));
+        Vector2d pos1 = new Vector2d(2,1);
+        Vector2d pos2 = new Vector2d(2,2);
+        //when
+        map.place(animal1);
+        map.place(animal2);
+        boolean res1 = animal1.canMoveTo(pos2);
+        boolean res2 = animal2.canMoveTo(pos1);
+        //then
+        assertFalse(res1);
+        assertFalse(res2);
     }
 }

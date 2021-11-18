@@ -17,10 +17,17 @@ public class SimulationEngine implements IEngine {
 
     @Override
     public void run() {
-        RectangularMap mainMap = (RectangularMap) this.map;
         int n = moves.length;
-        for(int i = 0 ; i <n ;i++){
-            mainMap.getAnimal(i % animalCounter).move(moves[i]);
+        if(this.map instanceof RectangularMap mainMap){
+            for(int i = 0 ; i <n ;i++){
+                mainMap.getAnimal(i % animalCounter).move(moves[i]);
+            }
         }
+        else if (this.map instanceof GrassField mainMap) {
+            for(int i = 0 ; i <n ;i++){
+                mainMap.getAnimal(i % animalCounter).move(moves[i]);
+            }
+        }
+
     }
 }

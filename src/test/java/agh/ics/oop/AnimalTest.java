@@ -64,9 +64,9 @@ class AnimalTest {
         }
 
         //then
-        Assertions.assertEquals(new Vector2d(0, 3), myAnimal_1.getPosition());
-        Assertions.assertEquals(new Vector2d(2, 0), myAnimal_2.getPosition());
-        Assertions.assertEquals(new Vector2d(2, 2), myAnimal_3.getPosition());
+        Assertions.assertEquals(new Vector2d(2, 4), myAnimal_1.getPosition());
+        Assertions.assertEquals(new Vector2d(4, 2), myAnimal_2.getPosition());
+        Assertions.assertEquals(new Vector2d(4, 4), myAnimal_3.getPosition());
 
     }
 
@@ -96,9 +96,9 @@ class AnimalTest {
         }
 
         //then
-        Assertions.assertEquals(new Vector2d(2, 4), myAnimal_1.getPosition());
-        Assertions.assertEquals(new Vector2d(2, 0), myAnimal_2.getPosition());
-        Assertions.assertEquals(new Vector2d(4, 2), myAnimal_3.getPosition());
+        Assertions.assertEquals(new Vector2d(4, 4), myAnimal_1.getPosition());
+        Assertions.assertEquals(new Vector2d(4, 1), myAnimal_2.getPosition());
+        Assertions.assertEquals(new Vector2d(4, 4), myAnimal_3.getPosition());
 
     }
 

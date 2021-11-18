@@ -12,9 +12,9 @@ public class Animal implements IWorldMap{
         position = STARTING_POINT;
     }
     public Animal(IWorldMap map,Vector2d initialPosition){
-        position=initialPosition;
-        direction=MapDirection.NORTH;
         this.map=map;
+        direction=MapDirection.NORTH;
+        position=initialPosition;
     }
 
     public MapDirection getDirection() {
@@ -34,42 +34,40 @@ public class Animal implements IWorldMap{
         };
     }
 
+
+    private void moveForBac(Vector2d vector){
+        if(this.map.canMoveTo(vector)) {
+            this.position = vector;
+        }
+    }
+
     public void move(MoveDirection step) {
         switch (step) {
             case LEFT -> direction=direction.previous();
             case RIGHT -> direction=direction.next();
-            case BACKWARD  -> {
-                if(this.map.canMoveTo(this.position.subtract(this.direction.toUnitVector()))){
-                    this.position = this.position.subtract(this.direction.toUnitVector());
-                }
-            }
-            case FORWARD -> {
-                if(this.map.canMoveTo(this.position.add(this.direction.toUnitVector()))){
-                    this.position=this.position.add(this.direction.toUnitVector());
-                }
-            }
+            case BACKWARD  -> moveForBac(this.position.subtract(this.direction.toUnitVector()));
+            case FORWARD -> moveForBac(this.position.add(this.direction.toUnitVector()));
         }
     }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        RectangularMap mainMap = (RectangularMap) this.map;
-        return position.precedes(mainMap.getUpperRightBorder()) && position.follows(mainMap.getLowerLeftBorder());
+        return this.map.canMoveTo(position);
     }
 
     @Override
     public boolean place(Animal animal) {
-        return false;
+        return this.map.place(animal);
     }
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return false;
+        return this.map.isOccupied(position);
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        return null;
+        return this.map.objectAt(position);
     }
 }
 
