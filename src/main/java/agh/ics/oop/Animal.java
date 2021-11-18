@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public class Animal implements IWorldMap{
+public class Animal{
     private MapDirection direction;
     private Vector2d position;
     private final IWorldMap map;
@@ -50,24 +50,9 @@ public class Animal implements IWorldMap{
         }
     }
 
-    @Override
     public boolean canMoveTo(Vector2d position) {
         return this.map.canMoveTo(position);
     }
 
-    @Override
-    public boolean place(Animal animal) {
-        return this.map.place(animal);
-    }
-
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return this.map.isOccupied(position);
-    }
-
-    @Override
-    public Object objectAt(Vector2d position) {
-        return this.map.objectAt(position);
-    }
 }
 
