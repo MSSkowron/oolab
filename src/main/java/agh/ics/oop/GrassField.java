@@ -54,11 +54,6 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
         return upperRightBorder;
     }
 
-    protected Animal getAnimal(int i) {
-        return animals.get(i);
-    }
-
-
     private boolean canPlaceGrass(Vector2d position){
         for(Grass g:grasses){
             if(position.equals(g.getPosition())){
@@ -110,5 +105,10 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
             }
         }
         return null;
+    }
+
+    public String toString(){
+        MapVisualiser visualiser = new MapVisualiser(this);
+        return visualiser.draw(getLowerLeftBorder(),getUpperRightBorder());
     }
 }

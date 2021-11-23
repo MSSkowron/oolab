@@ -3,35 +3,27 @@ package agh.ics.oop;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedList;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimulationEngineTest {
     @Test
-    void simulationTest(){
-        //given
-        String[] array = {"f","b","r","l","f","f","r","r","f","f","f","f","f","f","f","f","f","f"};
-        MoveDirection[] directions = new OptionsParser().parse(array);
-        RectangularMap mapa = new RectangularMap(10, 10);
-        IWorldMap map = mapa;
-        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        Vector2d endPos1 = new Vector2d(2,0);
-        MapDirection endDir1 = MapDirection.SOUTH;
-        Vector2d endPos2 = new Vector2d(3,8);
-        MapDirection endDir2 = MapDirection.NORTH;
-        IEngine engine = new SimulationEngine(directions, map, positions);
-        //when
+    void simulationTest() {
+        OptionsParser parser = new OptionsParser();
+        IWorldMap map1 = new RectangularMap(3, 3);
+        Vector2d[] p1 = {new Vector2d(0, 0), new Vector2d(1, 0), new Vector2d(2, 0)};
+        String[] m1 = {"f", "f", "f", "f", "f", "f", "f", "f", "f"};
+
+        SimulationEngine engine = new SimulationEngine(parser.parse(m1), map1, p1);
         engine.run();
-        Vector2d resP1 = mapa.getAnimal(0).getPosition();
-        MapDirection resD1 = mapa.getAnimal(0).getDirection();
-        Vector2d resP2 = mapa.getAnimal(1).getPosition();
-        MapDirection resD2 = mapa.getAnimal(1).getDirection();
-        //then
-        Assertions.assertEquals(endPos1,resP1);
-        Assertions.assertEquals(endDir1,resD1);
-        Assertions.assertEquals(endPos2,resP2);
-        Assertions.assertEquals(endDir2,resD2);
+
+        LinkedList<Animal> a = engine.getAnimals();
+        assertEquals(a.get(0).getPosition(), new Vector2d(0, 3));
+        assertEquals(a.get(1).getPosition(), new Vector2d(1, 3));
+        assertEquals(a.get(2).getPosition(), new Vector2d(2, 3));
+
 
     }
 }

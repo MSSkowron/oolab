@@ -6,7 +6,6 @@ import java.util.List;
 public class RectangularMap extends AbstractWorldMap implements IWorldMap {
     private final Vector2d upperRightBorder;
     private final Vector2d lowerLeftBorder;
-    private final MapVisualiser mapVisualiser = new MapVisualiser(null);
     private final List<Animal> animals = new ArrayList<>();
 
     public RectangularMap(int width,int height){
@@ -21,10 +20,6 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap {
 
     protected Vector2d getUpperRightBorder() {
         return upperRightBorder;
-    }
-
-    protected Animal getAnimal(int i) {
-        return animals.get(i);
     }
 
 
@@ -63,5 +58,10 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap {
             }
         }
         return null;
+    }
+
+    public String toString(){
+        MapVisualiser visualiser = new MapVisualiser(this);
+        return visualiser.draw(getLowerLeftBorder(),getUpperRightBorder());
     }
 }
