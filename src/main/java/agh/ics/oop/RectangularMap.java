@@ -1,12 +1,14 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class RectangularMap extends AbstractWorldMap implements IWorldMap {
+public class RectangularMap extends AbstractWorldMap implements IWorldMap,IPositionChangeObserver {
     private final Vector2d upperRightBorder;
     private final Vector2d lowerLeftBorder;
-    private final List<Animal> animals = new ArrayList<>();
+    private final Map<Vector2d, Animal> animals = new HashMap<>();
 
     public RectangularMap(int width,int height){
         // Ignoruje sytuacje, gdzie użytkownik podaje niepoprawne wartości. Zakładam, że są OK.
@@ -34,7 +36,8 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap {
             if (isOccupied(animal.getPosition())) {
                 return false;
             }
-            animals.add(animal);
+            animals.put(animal.getPosition(),animal);
+            animal.addObserver(this);
             return true;
         }
         else {
@@ -49,19 +52,18 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap {
 
     @Override
     public Object objectAt(Vector2d position) {
-        if(animals.size()==0){
-            return null;
-        }
-        for(Animal animal:animals){
-            if(animal.getPosition().equals(position)){
-                return animal;
-            }
-        }
-        return null;
+        return animals.get(position);
     }
 
     public String toString(){
         MapVisualiser visualiser = new MapVisualiser(this);
         return visualiser.draw(getLowerLeftBorder(),getUpperRightBorder());
+    }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal animal = animals.get(oldPosition);
+        animals.remove(oldPosition,animal);
+        animals.put(newPosition,animal);
     }
 }

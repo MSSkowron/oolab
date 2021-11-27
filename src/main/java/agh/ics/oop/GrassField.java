@@ -1,14 +1,12 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static java.lang.Math.sqrt;
 
-public class GrassField extends AbstractWorldMap implements IWorldMap {
-    private final List<Grass> grasses = new ArrayList<>();
-    private final List<Animal> animals = new ArrayList<>();
+public class GrassField extends AbstractWorldMap implements IWorldMap,IPositionChangeObserver {
+    private final Map<Vector2d, Grass> grasses = new HashMap<>();
+    private final Map<Vector2d, Animal> animals = new HashMap<>();
 
     public GrassField(int n){
         int counter = 0;
@@ -23,16 +21,17 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
             }
         }
     }
+
     protected Vector2d getLowerLeftBorder() {
         Vector2d lowerLeftBorder = new Vector2d(0,0);
-        for(Animal animal:animals){
-            if(animal.getPosition().precedes(lowerLeftBorder)){
-                lowerLeftBorder=animal.getPosition();
+        for (Vector2d key : animals.keySet()) {
+            if(key.precedes(lowerLeftBorder)){
+                lowerLeftBorder=key;
             }
         }
-        for(Grass g:grasses){
-            if(g.getPosition().precedes(lowerLeftBorder)){
-                lowerLeftBorder=g.getPosition();
+        for (Vector2d key : grasses.keySet()) {
+            if(key.precedes(lowerLeftBorder)){
+                lowerLeftBorder=key;
             }
         }
 
@@ -41,30 +40,25 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
 
     protected Vector2d getUpperRightBorder() {
         Vector2d upperRightBorder = new Vector2d(0,0);
-        for(Animal animal:animals){
-            if(animal.getPosition().follows(upperRightBorder)){
-                upperRightBorder=animal.getPosition();
+        for (Vector2d key : animals.keySet()) {
+            if(key.follows(upperRightBorder)){
+                upperRightBorder=key;
             }
         }
-        for(Grass g:grasses){
-            if(g.getPosition().follows(upperRightBorder)){
-                upperRightBorder=g.getPosition();
+        for (Vector2d key : grasses.keySet()) {
+            if(key.follows(upperRightBorder)){
+                upperRightBorder=key;
             }
         }
         return upperRightBorder;
     }
 
     private boolean canPlaceGrass(Vector2d position){
-        for(Grass g:grasses){
-            if(position.equals(g.getPosition())){
-                return false;
-            }
-        }
-        return true;
+        return grasses.get(position) == null;
     }
 
     private void placeGrass(Grass g){
-        grasses.add(g);
+        grasses.put(g.getPosition(),g);
     }
 
 
@@ -76,7 +70,8 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
     @Override
     public boolean place(Animal animal) {
         if(!isOccupied(animal.getPosition())){
-            animals.add(animal);
+            animals.put(animal.getPosition(),animal);
+            animal.addObserver(this);
             return true;
         }
         return false;
@@ -84,31 +79,27 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for(Animal animal:animals){
-            if(animal.getPosition().equals(position)){
-                return true;
-            }
-        }
-        return false;
+        return objectAt(position) instanceof Animal;
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        for(Animal animal:animals){
-            if(animal.getPosition().equals(position)){
-                return animal;
-            }
+        Animal a = animals.get(position);
+        if(a!=null){
+            return a;
         }
-        for(Grass g:grasses){
-            if(g.getPosition().equals(position)){
-                return g;
-            }
-        }
-        return null;
+        return grasses.get(position);
     }
 
     public String toString(){
         MapVisualiser visualiser = new MapVisualiser(this);
         return visualiser.draw(getLowerLeftBorder(),getUpperRightBorder());
+    }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal animal = animals.get(oldPosition);
+        animals.remove(oldPosition,animal);
+        animals.put(newPosition,animal);
     }
 }

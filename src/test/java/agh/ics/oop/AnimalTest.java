@@ -31,7 +31,6 @@ class AnimalTest {
         for (MoveDirection direction : a3) {
             myAnimal_3.move(direction);
         }
-
         //then
         Assertions.assertEquals(MapDirection.EAST, myAnimal_1.getDirection());
         Assertions.assertEquals(MapDirection.WEST, myAnimal_2.getDirection());

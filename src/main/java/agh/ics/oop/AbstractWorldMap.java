@@ -18,7 +18,6 @@ abstract class AbstractWorldMap {
 
     protected abstract Vector2d getUpperRightBorder();
 
-
     public String toString(){
         MapVisualiser visualiser = new MapVisualiser((IWorldMap) this);
         return visualiser.draw(getLowerLeftBorder(),getUpperRightBorder());
