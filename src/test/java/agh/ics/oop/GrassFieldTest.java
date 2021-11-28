@@ -18,9 +18,9 @@ class GrassFieldTest {
         //when
         map.place(animal1);
         map.place(animal2);
-        boolean res1 = animal1.canMoveTo(pos2);
-        boolean res2 = animal2.canMoveTo(pos1);
-        boolean res3 = animal2.canMoveTo(pos3);
+        boolean res1 = map.canMoveTo(pos2);
+        boolean res2 = map.canMoveTo(pos1);
+        boolean res3 = map.canMoveTo(pos3);
         //then
         assertFalse(res1);
         assertFalse(res2);
@@ -52,18 +52,16 @@ class GrassFieldTest {
         Animal animal2 = new Animal(map,new Vector2d(2,2));
         Vector2d pos1 = new Vector2d(2,1);
         Vector2d pos2 = new Vector2d(2,2);
+        Vector2d pos3 = new Vector2d(1,1);
+        Vector2d pos4 = new Vector2d(1,2);
         //when
+        map.place(animal1);
+        map.place(animal2);
         boolean res1 = map.isOccupied(pos1);
         boolean res2 = map.isOccupied(pos2);
-        map.place(animal1);
-        boolean res3 = map.isOccupied(pos1);
-        map.place(animal2);
-        boolean res4 = map.isOccupied(pos2);
         //then
-        assertFalse(res1);
-        assertFalse(res2);
-        assertTrue(res3);
-        assertTrue(res4);
+        assertTrue(res1);
+        assertTrue(res2);
     }
 
     @Test
@@ -74,16 +72,13 @@ class GrassFieldTest {
         Animal animal2 = new Animal(map,new Vector2d(2,2));
         Vector2d pos1 = new Vector2d(2,1);
         Vector2d pos2 = new Vector2d(2,2);
-        Vector2d pos3 = new Vector2d(5,5);
         //when
         map.place(animal1);
         map.place(animal2);
         Object res1 = map.objectAt(pos1);
         Object res2 = map.objectAt(pos2);
-        Object res3 = map.objectAt(pos3);
         //then
         assertEquals(animal1,res1);
         assertEquals(animal2,res2);
-        assertNull(res3);
     }
 }

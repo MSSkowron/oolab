@@ -87,8 +87,8 @@ class RectangularMapTest {
         //when
         map.place(animal1);
         map.place(animal2);
-        boolean res1 = animal1.canMoveTo(pos2);
-        boolean res2 = animal2.canMoveTo(pos1);
+        boolean res1 = map.canMoveTo(pos2);
+        boolean res2 = map.canMoveTo(pos1);
         //then
         assertFalse(res1);
         assertFalse(res2);

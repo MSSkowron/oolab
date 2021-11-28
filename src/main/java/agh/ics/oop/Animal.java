@@ -33,7 +33,7 @@ public class Animal{
     }
 
 
-    private void moveForBac(Vector2d vector){
+    private void moveForwadBackward(Vector2d vector){
         if(this.map.canMoveTo(vector)) {
             positionChanged(this.position,vector);
             this.position = vector;
@@ -44,14 +44,11 @@ public class Animal{
         switch (step) {
             case LEFT -> direction=direction.previous();
             case RIGHT -> direction=direction.next();
-            case BACKWARD  -> moveForBac(this.position.subtract(this.direction.toUnitVector()));
-            case FORWARD -> moveForBac(this.position.add(this.direction.toUnitVector()));
+            case BACKWARD  -> moveForwadBackward(this.position.subtract(this.direction.toUnitVector()));
+            case FORWARD -> moveForwadBackward(this.position.add(this.direction.toUnitVector()));
         }
     }
 
-    public boolean canMoveTo(Vector2d position) {
-        return this.map.canMoveTo(position);
-    }
 
     public void addObserver(IPositionChangeObserver observer){
         observers.add(observer);

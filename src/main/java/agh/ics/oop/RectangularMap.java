@@ -15,15 +15,15 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap,IPosit
         upperRightBorder = new Vector2d(width,height);
         lowerLeftBorder = new Vector2d(0,0);
     }
-
+    @Override
     protected Vector2d getLowerLeftBorder() {
         return lowerLeftBorder;
     }
 
+    @Override
     protected Vector2d getUpperRightBorder() {
         return upperRightBorder;
     }
-
 
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -55,6 +55,7 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap,IPosit
         return animals.get(position);
     }
 
+    @Override
     public String toString(){
         MapVisualiser visualiser = new MapVisualiser(this);
         return visualiser.draw(getLowerLeftBorder(),getUpperRightBorder());

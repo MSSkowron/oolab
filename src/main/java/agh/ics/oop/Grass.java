@@ -13,8 +13,6 @@ public class Grass {
 
     @Override
     public String toString() {
-        return "Grass{" +
-                "position=" + position +
-                '}';
+        return "*";
     }
 }

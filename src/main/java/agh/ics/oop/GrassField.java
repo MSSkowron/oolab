@@ -9,67 +9,85 @@ public class GrassField extends AbstractWorldMap implements IWorldMap,IPositionC
     private final Map<Vector2d, Animal> animals = new HashMap<>();
 
     public GrassField(int n){
-        int counter = 0;
         Random r = new Random();
-        while (counter != n){
-            int x = r.nextInt((int) sqrt(n*10));
-            int y = r.nextInt((int) sqrt(n*10));
-            Vector2d position = new Vector2d(x,y);
-            if(canPlaceGrass(position)){
-                placeGrass(new Grass(position));
-                counter += 1;
+        LinkedList<Vector2d> positions = new LinkedList<>();
+        int x = (int) sqrt(n*10);
+        int y = (int) sqrt(n*10);
+        for(int i=0;i<=y;i++){
+            for (int j=0;j<=x;j++){
+                positions.add(new Vector2d(j,i));
             }
+        }
+        for(int i = 0;i<n;i++){
+            int len = positions.size();
+            int index = r.nextInt(len);
+            Vector2d position = positions.get(index);
+            positions.remove(index);
+            placeGrass(new Grass(position));
         }
     }
 
-    protected Vector2d getLowerLeftBorder() {
-        Vector2d lowerLeftBorder = new Vector2d(0,0);
-        for (Vector2d key : animals.keySet()) {
-            if(key.precedes(lowerLeftBorder)){
-                lowerLeftBorder=key;
-            }
-        }
-        for (Vector2d key : grasses.keySet()) {
-            if(key.precedes(lowerLeftBorder)){
-                lowerLeftBorder=key;
-            }
-        }
-
-        return lowerLeftBorder;
-    }
-
-    protected Vector2d getUpperRightBorder() {
+    private Vector2d findMaximum(Set<Vector2d> positions){
         Vector2d upperRightBorder = new Vector2d(0,0);
-        for (Vector2d key : animals.keySet()) {
-            if(key.follows(upperRightBorder)){
-                upperRightBorder=key;
-            }
-        }
-        for (Vector2d key : grasses.keySet()) {
-            if(key.follows(upperRightBorder)){
-                upperRightBorder=key;
+        for (Vector2d position : positions) {
+            if(position.follows(upperRightBorder)){
+                upperRightBorder=position;
             }
         }
         return upperRightBorder;
     }
 
-    private boolean canPlaceGrass(Vector2d position){
-        return grasses.get(position) == null;
+    private Vector2d findMinimum(Set<Vector2d> positions){
+        Vector2d lowerLeftBorder = new Vector2d(0,0);
+        for (Vector2d position : positions) {
+            if(position.precedes(lowerLeftBorder)){
+                lowerLeftBorder=position;
+            }
+        }
+        return lowerLeftBorder;
     }
+
 
     private void placeGrass(Grass g){
         grasses.put(g.getPosition(),g);
     }
 
+    @Override
+    protected Vector2d getLowerLeftBorder() {
+        Vector2d lowerLeftBorder = new Vector2d(0,0);
+        Vector2d animalsMinPosition = findMinimum(animals.keySet());
+        Vector2d grassesMinPosition = findMinimum(grasses.keySet());
+        if (animalsMinPosition.precedes(lowerLeftBorder)){
+            lowerLeftBorder = animalsMinPosition;
+        }
+        if (grassesMinPosition.precedes(lowerLeftBorder)){
+            lowerLeftBorder = grassesMinPosition;
+        }
+        return lowerLeftBorder;
+    }
+
+    @Override
+    protected Vector2d getUpperRightBorder() {
+        Vector2d upperRightBorder = new Vector2d(0,0);
+        Vector2d animalsMaxPosition = findMaximum(animals.keySet());
+        Vector2d grassesMaxPosition = findMaximum(grasses.keySet());
+        if (animalsMaxPosition.follows(upperRightBorder)){
+            upperRightBorder = animalsMaxPosition;
+        }
+        if (grassesMaxPosition.follows(upperRightBorder)){
+            upperRightBorder = grassesMaxPosition;
+        }
+        return upperRightBorder;
+    }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return !isOccupied(position);
+        return  !(objectAt(position) instanceof Animal);
     }
 
     @Override
     public boolean place(Animal animal) {
-        if(!isOccupied(animal.getPosition())){
+        if(!(objectAt(animal.getPosition()) instanceof Animal)){
             animals.put(animal.getPosition(),animal);
             animal.addObserver(this);
             return true;
@@ -79,7 +97,7 @@ public class GrassField extends AbstractWorldMap implements IWorldMap,IPositionC
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return objectAt(position) instanceof Animal;
+        return objectAt(position)!=null;
     }
 
     @Override
@@ -91,6 +109,7 @@ public class GrassField extends AbstractWorldMap implements IWorldMap,IPositionC
         return grasses.get(position);
     }
 
+    @Override
     public String toString(){
         MapVisualiser visualiser = new MapVisualiser(this);
         return visualiser.draw(getLowerLeftBorder(),getUpperRightBorder());
@@ -99,7 +118,7 @@ public class GrassField extends AbstractWorldMap implements IWorldMap,IPositionC
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         Animal animal = animals.get(oldPosition);
-        animals.remove(oldPosition,animal);
+        animals.remove(oldPosition);
         animals.put(newPosition,animal);
     }
 }
