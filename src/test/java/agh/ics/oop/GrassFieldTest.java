@@ -52,8 +52,7 @@ class GrassFieldTest {
         Animal animal2 = new Animal(map,new Vector2d(2,2));
         Vector2d pos1 = new Vector2d(2,1);
         Vector2d pos2 = new Vector2d(2,2);
-        Vector2d pos3 = new Vector2d(1,1);
-        Vector2d pos4 = new Vector2d(1,2);
+
         //when
         map.place(animal1);
         map.place(animal2);

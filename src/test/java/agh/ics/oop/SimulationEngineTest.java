@@ -29,8 +29,5 @@ class SimulationEngineTest {
         assertEquals(a.get(0).getPosition(), new Vector2d(0, 3));
         assertEquals(a.get(1).getPosition(), new Vector2d(1, 3));
         assertEquals(a.get(2).getPosition(), new Vector2d(2, 3));
-
-
-
     }
 }
