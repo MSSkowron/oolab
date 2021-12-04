@@ -70,8 +70,9 @@ class GrassFieldTest {
 
     @Test
     void objectAtTest() {
-        //givenz
-        IWorldMap map = new GrassField(10);
+        //given
+        GrassField mapa = new GrassField(10);
+        IWorldMap map = mapa;
         Animal animal1 = new Animal(map,new Vector2d(2,1));
         Animal animal2 = new Animal(map,new Vector2d(2,2));
         Vector2d pos1 = new Vector2d(2,1);
@@ -79,6 +80,7 @@ class GrassFieldTest {
         //when
         map.place(animal1);
         map.place(animal2);
+        System.out.println(mapa.toString());
         Object res1 = map.objectAt(pos1);
         Object res2 = map.objectAt(pos2);
         //then

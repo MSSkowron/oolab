@@ -7,6 +7,7 @@ import static java.lang.Math.sqrt;
 
 public class GrassField extends AbstractWorldMap{
     private final Map<Vector2d, Grass> grasses = new HashMap<>();
+    private final MapBoundary mapBoundary = new MapBoundary();
 
     public GrassField(int n){
         Random r = new Random();
@@ -27,58 +28,29 @@ public class GrassField extends AbstractWorldMap{
         }
     }
 
-    private Vector2d findMaximum(Set<Vector2d> positions){
-        Vector2d upperRightBorder = new Vector2d(0,0);
-        for (Vector2d position : positions) {
-            if(position.follows(upperRightBorder)){
-                upperRightBorder=position;
-            }
-        }
-        return upperRightBorder;
-    }
-
-    private Vector2d findMinimum(Set<Vector2d> positions){
-        Vector2d lowerLeftBorder = new Vector2d(0,0);
-        for (Vector2d position : positions) {
-            if(position.precedes(lowerLeftBorder)){
-                lowerLeftBorder=position;
-            }
-        }
-        return lowerLeftBorder;
-    }
-
     private void placeGrass(Grass g){
         grasses.put(g.getPosition(),g);
+        mapBoundary.addGrass(g.getPosition());
     }
 
     @Override
-    protected Vector2d getLowerLeftBorder() {
-        Vector2d lowerLeftBorder = new Vector2d(0,0);
-        Vector2d animalsMinPosition = findMinimum(animals.keySet());
-        Vector2d grassesMinPosition = findMinimum(grasses.keySet());
-        if (animalsMinPosition.precedes(lowerLeftBorder)){
-            lowerLeftBorder = animalsMinPosition;
-        }
-        if (grassesMinPosition.precedes(lowerLeftBorder)){
-            lowerLeftBorder = grassesMinPosition;
-        }
-        return lowerLeftBorder;
+    Vector2d getLowerLeftBorder() {
+        return mapBoundary.getLowerLeft();
     }
 
     @Override
-    protected Vector2d getUpperRightBorder() {
-        Vector2d upperRightBorder = new Vector2d(0,0);
-        Vector2d animalsMaxPosition = findMaximum(animals.keySet());
-        Vector2d grassesMaxPosition = findMaximum(grasses.keySet());
-        if (animalsMaxPosition.follows(upperRightBorder)){
-            upperRightBorder = animalsMaxPosition;
-        }
-        if (grassesMaxPosition.follows(upperRightBorder)){
-            upperRightBorder = grassesMaxPosition;
-        }
-        return upperRightBorder;
+    Vector2d getUpperRightBorder() {
+        return mapBoundary.getUpperRight();
     }
 
+    @Override
+    public boolean putAnimal(Animal animal){
+        animals.put(animal.getPosition(),animal);
+        mapBoundary.addAnimal(animal.getPosition());
+        animal.addObserver(this);
+        animal.addObserver(mapBoundary);
+        return true;
+    }
     @Override
     public boolean canMoveTo(Vector2d position) {
         return  !(objectAt(position) instanceof Animal);

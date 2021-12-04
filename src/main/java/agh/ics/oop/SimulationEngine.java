@@ -7,15 +7,15 @@ public class SimulationEngine implements IEngine {
     private int animalCounter = 0;
     private final LinkedList<Animal> animals;
 
-    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions){
+    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions) throws IllegalArgumentException{
         this.moves = moves;
         animals = new LinkedList<>();
         for (Vector2d vector : positions) {
             Animal animal = new Animal(map, vector);
-            if (map.place(animal)) {
-                animalCounter += 1;
-                animals.addLast(animal);
-            }
+            map.place(animal);
+            animalCounter += 1;
+            animals.addLast(animal);
+
         }
     }
 
