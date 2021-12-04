@@ -7,7 +7,7 @@ public class SimulationEngine implements IEngine {
     private int animalCounter = 0;
     private final LinkedList<Animal> animals;
 
-    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions) {
+    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] positions){
         this.moves = moves;
         animals = new LinkedList<>();
         for (Vector2d vector : positions) {

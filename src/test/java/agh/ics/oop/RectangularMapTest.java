@@ -12,25 +12,17 @@ class RectangularMapTest {
         //given
         RectangularMap map = new RectangularMap(10,10);
         Animal animal1 = new Animal(null,new Vector2d(1,1));
-        Animal animal2 = new Animal(null,new Vector2d(2,2));
-        Animal animal3 = new Animal(null,new Vector2d(3,3));
-        Animal animal4 = new Animal(null,new Vector2d(2,2));
-        Animal animal5 = new Animal(null,new Vector2d(5,5));
-        Animal animal6 = new Animal(null,new Vector2d(5,5));
+        Animal animal2 = new Animal(null,new Vector2d(1,1));
         //when
         boolean res1= map.place(animal1);
-        boolean res2= map.place(animal2);
-        boolean res3= map.place(animal3);
-        boolean res4= map.place(animal4);
-        boolean res5= map.place(animal5);
-        boolean res6= map.place(animal6);
+        try {
+            map.place(animal2);
+        }
+        catch (IllegalArgumentException  exception){
+            Assertions.assertEquals("Cannot place animal on position :"+animal2.getPosition().toString(),exception.getMessage());
+        }
         //then
         assertTrue(res1);
-        assertTrue(res2);
-        assertTrue(res3);
-        assertFalse(res4);
-        assertTrue(res5);
-        assertFalse(res6);
     }
 
     @Test

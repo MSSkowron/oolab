@@ -105,8 +105,8 @@ class AnimalTest {
     void inputArrayInterpretationTest() {
         //given
         OptionsParser pars = new OptionsParser();
-        String[] inputArray = {"r", "right", "b", "somethingelse", "left", "b", "nothing", "r", "f", "F", "l", "forward", "backward"};
-        MoveDirection[] directionArray = {MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.BACKWARD, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.BACKWARD};
+        String[] inputArray = {"r", "right", "b", "left", "b", "r", "f", "F", "l", "forward", "backward"};
+        MoveDirection[] directionArray = {MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.BACKWARD, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.FORWARD,MoveDirection.FORWARD ,MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.BACKWARD};
         //when
         MoveDirection[] moves = pars.parse(inputArray);
         //then

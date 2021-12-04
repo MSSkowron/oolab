@@ -11,11 +11,12 @@ abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
 
     abstract Vector2d getUpperRightBorder();
 
-    public boolean place(Animal animal) {
+    public boolean place(Animal animal) throws IllegalArgumentException {
         if(canMoveTo(animal.getPosition())){
             return putAnimal(animal);
+        }else {
+            throw new IllegalArgumentException("Cannot place animal on position :"+animal.getPosition().toString());
         }
-        return false;
     }
 
     public boolean isOccupied(Vector2d position) {

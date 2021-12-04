@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GrassFieldTest {
 
     @Test
-    void canMoveToTest() {
+    void canMoveToTest(){
         //given
         IWorldMap map = new GrassField(10);
         Animal animal1 = new Animal(map,new Vector2d(2,1));
@@ -28,7 +29,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void placeTest() {
+    void placeTest(){
         //given
         IWorldMap map = new GrassField(10);
         Animal animal1 = new Animal(map,new Vector2d(2,1));
@@ -37,15 +38,19 @@ class GrassFieldTest {
         //when
         boolean res1 = map.place(animal1);
         boolean res2 = map.place(animal2);
-        boolean res3 = map.place(animal3);
+        try {
+            map.place(animal3);
+        }
+        catch (IllegalArgumentException  exception){
+            Assertions.assertEquals("Cannot place animal on position :"+animal3.getPosition().toString(),exception.getMessage());
+        }
         //then
         assertTrue(res1);
         assertTrue(res2);
-        assertFalse(res3);
     }
 
     @Test
-    void isOccupiedTest() {
+    void isOccupiedTest(){
         //given
         IWorldMap map = new GrassField(10);
         Animal animal1 = new Animal(map,new Vector2d(2,1));
@@ -65,7 +70,7 @@ class GrassFieldTest {
 
     @Test
     void objectAtTest() {
-        //given
+        //givenz
         IWorldMap map = new GrassField(10);
         Animal animal1 = new Animal(map,new Vector2d(2,1));
         Animal animal2 = new Animal(map,new Vector2d(2,2));

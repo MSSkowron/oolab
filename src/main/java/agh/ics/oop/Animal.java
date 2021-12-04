@@ -50,6 +50,7 @@ public class Animal{
     }
 
     public void addObserver(IPositionChangeObserver observer){
+
         observers.add(observer);
     }
     public void removeObserver(IPositionChangeObserver observer){

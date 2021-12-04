@@ -1,38 +1,34 @@
 package agh.ics.oop;
 
+import java.util.LinkedList;
+
 public class OptionsParser {
 
 
-    public MoveDirection[] parse(String[] array) {
-        int size = 0;
-        for (String s : array) {
-            if (s.equals("f") || s.equals("forward") || s.equals("b") || s.equals("backward") || s.equals("r") || s.equals("right") || s.equals("l") || s.equals("left")) {
-                size += 1;
-            }
-        }
-        MoveDirection[] result = new MoveDirection[size];
-        int i = 0;
+    public MoveDirection[] parse(String[] array) throws IllegalArgumentException{
+        LinkedList<MoveDirection> directions = new LinkedList<>();
+
         for (String s : array) {
             switch (s) {
-                case "f", "forward" -> {
-                    result[i] = MoveDirection.FORWARD;
-                    i += 1;
-                }
-                case "b", "backward" -> {
-                    result[i] = MoveDirection.BACKWARD;
-                    i += 1;
-                }
-                case "r", "right" -> {
-                    result[i] = MoveDirection.RIGHT;
-                    i += 1;
-                }
-                case "l", "left" -> {
-                    result[i] = MoveDirection.LEFT;
-                    i += 1;
-                }
+                case "f","F", "forward" -> directions.add(MoveDirection.FORWARD);
+
+                case "b","B", "backward" -> directions.add(MoveDirection.BACKWARD);
+
+                case "r","R", "right" -> directions.add(MoveDirection.RIGHT);
+
+                case "l","L", "left" -> directions.add(MoveDirection.LEFT);
+
+
+                default -> throw new IllegalArgumentException(s + " is not legal move specification");
+
             }
         }
+        MoveDirection[] result = new MoveDirection[directions.size()];
+        int i = 0;
+        for (MoveDirection direction:directions){
+            result[i]=direction;
+            i+=1;
+        }
         return result;
-
     }
 }
