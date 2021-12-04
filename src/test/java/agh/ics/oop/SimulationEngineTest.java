@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SimulationEngineTest {
     @Test
-    void simulationTest() {
+    void simulationTest(){
         //given
         OptionsParser parser = new OptionsParser();
         RectangularMap mapa1 = new RectangularMap(3,3);
