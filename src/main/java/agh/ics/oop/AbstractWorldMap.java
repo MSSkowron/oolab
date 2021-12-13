@@ -3,15 +3,24 @@ package agh.ics.oop;
 import java.util.HashMap;
 import java.util.Map;
 
-abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
+public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
     Map<Vector2d, Animal> animals = new HashMap<>();
+    Map<Vector2d, Grass> grasses = new HashMap<>();
     MapVisualiser visualiser = new MapVisualiser(this);
 
-    abstract Vector2d getLowerLeftBorder();
+    public Map<Vector2d, Animal> getAnimals() {
+        return animals;
+    }
 
-    abstract Vector2d getUpperRightBorder();
+    public  Map<Vector2d, Grass> getGrasses(){
+        return grasses;
+    }
 
-    public boolean place(Animal animal) throws IllegalArgumentException {
+    public abstract Vector2d getLowerLeftBorder();
+
+    public abstract Vector2d getUpperRightBorder();
+
+    public boolean place(Animal animal){
         if(canMoveTo(animal.getPosition())){
             return putAnimal(animal);
         }else {
@@ -19,14 +28,22 @@ abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
         }
     }
 
-    public boolean isOccupied(Vector2d position) {
-        return objectAt(position)!=null;
-    }
-
     public boolean putAnimal(Animal animal){
         animals.put(animal.getPosition(),animal);
         animal.addObserver(this);
         return true;
+    }
+
+    public boolean isOccupied(Vector2d position) {
+        return objectAt(position)!=null;
+    }
+
+    public Object objectAt(Vector2d position) {
+        Animal a = animals.get(position);
+        if(a==null){
+            return grasses.get(position);
+        }
+        return a;
     }
 
     @Override

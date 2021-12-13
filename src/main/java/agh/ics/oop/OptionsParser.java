@@ -7,7 +7,6 @@ public class OptionsParser {
 
     public MoveDirection[] parse(String[] array) throws IllegalArgumentException{
         LinkedList<MoveDirection> directions = new LinkedList<>();
-
         for (String s : array) {
             switch (s) {
                 case "f","F", "forward" -> directions.add(MoveDirection.FORWARD);

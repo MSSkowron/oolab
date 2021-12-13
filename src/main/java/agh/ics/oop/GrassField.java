@@ -1,15 +1,17 @@
 package agh.ics.oop;
 
-
 import java.util.*;
 
 import static java.lang.Math.sqrt;
 
 public class GrassField extends AbstractWorldMap{
-    private final Map<Vector2d, Grass> grasses = new HashMap<>();
     private final MapBoundary mapBoundary = new MapBoundary();
 
     public GrassField(int n){
+        randomGrassPlacement(n);
+    }
+
+    private void randomGrassPlacement(int n){
         Random r = new Random();
         LinkedList<Vector2d> positions = new LinkedList<>();
         int x = (int) sqrt(n*10);
@@ -34,12 +36,12 @@ public class GrassField extends AbstractWorldMap{
     }
 
     @Override
-    Vector2d getLowerLeftBorder() {
+    public Vector2d getLowerLeftBorder() {
         return mapBoundary.getLowerLeft();
     }
 
     @Override
-    Vector2d getUpperRightBorder() {
+    public Vector2d getUpperRightBorder() {
         return mapBoundary.getUpperRight();
     }
 
@@ -51,17 +53,15 @@ public class GrassField extends AbstractWorldMap{
         animal.addObserver(mapBoundary);
         return true;
     }
-    @Override
-    public boolean canMoveTo(Vector2d position) {
-        return  !(objectAt(position) instanceof Animal);
-    }
 
     @Override
-    public Object objectAt(Vector2d position) {
-        Animal a = animals.get(position);
-        if(a!=null){
-            return a;
+    public boolean canMoveTo(Vector2d position) {
+        Object object = objectAt(position);
+        if(object == null){
+            return true;
         }
-        return grasses.get(position);
+        else {
+            return ((IMapElement) object).isMovable();
+        }
     }
 }

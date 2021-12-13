@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+
+
 public class RectangularMap extends AbstractWorldMap {
     private final Vector2d upperRightBorder;
     private final Vector2d lowerLeftBorder;
@@ -10,12 +12,12 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    protected Vector2d getLowerLeftBorder() {
+    public Vector2d getLowerLeftBorder() {
         return lowerLeftBorder;
     }
 
     @Override
-    protected Vector2d getUpperRightBorder() {
+    public Vector2d getUpperRightBorder() {
         return upperRightBorder;
     }
 
@@ -24,8 +26,4 @@ public class RectangularMap extends AbstractWorldMap {
         return position.precedes(upperRightBorder) && position.follows(lowerLeftBorder) && !isOccupied(position);
     }
 
-    @Override
-    public Object objectAt(Vector2d position) {
-        return animals.get(position);
-    }
 }

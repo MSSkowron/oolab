@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 import java.util.HashSet;
 
-public class Animal{
+public class Animal implements IMapElement{
     private MapDirection direction;
     private Vector2d position;
     private final IWorldMap map;
@@ -14,22 +14,11 @@ public class Animal{
         direction = MapDirection.NORTH;
         position = STARTING_POINT;
     }
+
     public Animal(IWorldMap map,Vector2d initialPosition){
         this.map=map;
         direction=MapDirection.NORTH;
         position=initialPosition;
-    }
-
-    public MapDirection getDirection() {
-        return direction;
-    }
-
-    public Vector2d getPosition() {
-        return position;
-    }
-
-    public String toString() {
-        return direction.toString();
     }
 
     private void moveForwardBackward(Vector2d vector){
@@ -49,13 +38,45 @@ public class Animal{
         }
     }
 
-    public void addObserver(IPositionChangeObserver observer){
+    public MapDirection getDirection() {
+        return direction;
+    }
 
+    @Override
+    public Vector2d getPosition() {
+        return position;
+    }
+
+    @Override
+    public boolean isMovable() {
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return direction.toString();
+    }
+
+    @Override
+    public String getResourceName() {
+        return switch (direction) {
+            case NORTH -> "src/main/resources/up.png";
+            case SOUTH -> "src/main/resources/down.png";
+            case WEST  -> "src/main/resources/left.png";
+            case EAST -> "src/main/resources/right.png";
+        };
+    }
+
+    @Override
+    public void addObserver(IPositionChangeObserver observer){
         observers.add(observer);
     }
+
+    @Override
     public void removeObserver(IPositionChangeObserver observer){
         observers.remove(observer);
     }
+
     private void positionChanged(Vector2d oldPosition,Vector2d newPosition){
         for(IPositionChangeObserver observer : observers){
             observer.positionChanged(oldPosition,newPosition);

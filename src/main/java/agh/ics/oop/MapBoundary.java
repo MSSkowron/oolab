@@ -5,7 +5,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class MapBoundary implements IPositionChangeObserver{
-    Comparator<Vector2d> comparatorX = (o1, o2) -> {
+    private final Comparator<Vector2d> comparatorX = (o1, o2) -> {
         if(o1.x - o2.x == 0){
             if(o1.y - o2.y ==0){
                 return 0;
@@ -16,7 +16,7 @@ public class MapBoundary implements IPositionChangeObserver{
         return  o1.x - o2.x;
     };
 
-    Comparator<Vector2d> comparatorY = (o1, o2) -> {
+    private final Comparator<Vector2d> comparatorY = (o1, o2) -> {
         if(o1.y - o2.y == 0){
             if(o1.x - o2.x ==0){
                 return 0;
@@ -27,10 +27,10 @@ public class MapBoundary implements IPositionChangeObserver{
         return  o1.y - o2.y;
     };
 
-    SortedSet<Vector2d> xAnimals = new TreeSet<>(comparatorX);
-    SortedSet<Vector2d> yAnimals = new TreeSet<>(comparatorY);
-    SortedSet<Vector2d> xGrasses = new TreeSet<>(comparatorX);
-    SortedSet<Vector2d> yGrasses = new TreeSet<>(comparatorY);
+    private final SortedSet<Vector2d> xAnimals = new TreeSet<>(comparatorX);
+    private final SortedSet<Vector2d> yAnimals = new TreeSet<>(comparatorY);
+    private final SortedSet<Vector2d> xGrasses = new TreeSet<>(comparatorX);
+    private final SortedSet<Vector2d> yGrasses = new TreeSet<>(comparatorY);
 
     public void addAnimal(Vector2d vector){
         xAnimals.add(vector);
@@ -51,7 +51,7 @@ public class MapBoundary implements IPositionChangeObserver{
     }
 
     public Vector2d getLowerLeft(){
-        return new Vector2d(Math.min(xAnimals.first().x, xGrasses.first().x),Math.max(yAnimals.first().y, yGrasses.first().y));
+        return new Vector2d(Math.min(xAnimals.first().x, xGrasses.first().x),Math.min(yAnimals.first().y, yGrasses.first().y));
     }
 
     public Vector2d getUpperRight(){
